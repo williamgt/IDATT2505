@@ -1,11 +1,11 @@
-// g++ main.cpp -o rubics -lglut -lGLU -lGL && ./rubics
-
 #include <GL/glut.h>
 #include <iostream>
 
 int rotate_x = 0;
 int rotate_y = 0;
 int rotate_z = 0;
+
+int right = 0;
 
 void drawSingleCube(GLdouble x, GLdouble y, GLdouble z) {
   glPushMatrix();
@@ -60,6 +60,9 @@ void drawSingleCube(GLdouble x, GLdouble y, GLdouble z) {
   glPopMatrix();
 }
 
+// Draws cube from bottom, left, back to front
+// then middle, left, back to front,
+// then top, left, back to front etc
 void draw3x3Cubes() {
   GLdouble gap = 0.02;
   int cube_size = 2;
@@ -67,10 +70,16 @@ void draw3x3Cubes() {
   for (auto i = 1; i < 4; i++) {
     for (auto j = 1; j < 4; j++) {
       for (auto k = 1; k < 4; k++) {
+        if (i == 3 && right > 0) {
+          glRotated(right, 1.0, 0.0, 0.0);
+        }
         drawSingleCube(
             (gap + cube_size) * (i - 2),
             (gap + cube_size) * (j - 2),
             (gap + cube_size) * (k - 2));
+        if (i == 3 && right > 0) {
+          glRotated(-right, 1.0, 0.0, 0.0);
+        }
       }
     }
   }
@@ -96,13 +105,8 @@ void display() {
 void init() {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  // gluPerspective(60.0f, h/w, 1.0f, 50.0f);
   glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, 50.0);
   gluLookAt(0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
-  // glMatrixMode(GL_MODELVIEW);
-  // glLoadIdentity();
-  // gluLookAt (0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); //Looking from 5 z to 0 z, letting y be up
 }
 
 void reshape(int w, int h) {
@@ -111,11 +115,12 @@ void reshape(int w, int h) {
 
 void keybInput(unsigned char key, int x, int y) {
   switch (key) {
-  case GLUT_KEY_RIGHT:
-    glRotated(90.0, 0.0, 1.0, 0.0);
+  case 'h':
     std::cout << "Hei" << std::endl;
     break;
-  case GLUT_KEY_REPEAT_ON:
+  case 'R': // counterclockwise
+    right = (right + 1) % 360;
+    glutPostRedisplay();
     break;
   default:
     break;
@@ -151,7 +156,7 @@ int main(int argc, char **argv) {
   init();
   glutReshapeFunc(reshape);
   glutDisplayFunc(display);
-  //  glutKeyboardFunc(keybInput);
+  glutKeyboardFunc(keybInput);
   glutSpecialFunc(specialKeybInput);
 
   glutMainLoop();
