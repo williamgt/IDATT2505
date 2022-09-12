@@ -6,6 +6,8 @@ int rotate_y = 0;
 int rotate_z = 0;
 
 int right = 0;
+int upper = 0;
+int front = 0;
 
 void drawSingleCube(GLdouble x, GLdouble y, GLdouble z) {
   glPushMatrix();
@@ -70,16 +72,21 @@ void draw3x3Cubes() {
   for (auto i = 1; i < 4; i++) {
     for (auto j = 1; j < 4; j++) {
       for (auto k = 1; k < 4; k++) {
-        if (i == 3 && right > 0) {
+        glPushMatrix();
+        if (i == 3) {
           glRotated(right, 1.0, 0.0, 0.0);
+        }
+        if (j == 3) {
+          glRotated(upper, 0.0, 1.0, 0.0);
+        }
+        if (k == 3) {
+          glRotated(front, 0.0, 0.0, 1.0);
         }
         drawSingleCube(
             (gap + cube_size) * (i - 2),
             (gap + cube_size) * (j - 2),
             (gap + cube_size) * (k - 2));
-        if (i == 3 && right > 0) {
-          glRotated(-right, 1.0, 0.0, 0.0);
-        }
+        glPopMatrix();
       }
     }
   }
@@ -120,6 +127,26 @@ void keybInput(unsigned char key, int x, int y) {
     break;
   case 'R': // counterclockwise
     right = (right + 1) % 360;
+    glutPostRedisplay();
+    break;
+  case 'r': // clockwise
+    right = (right - 1) % 360;
+    glutPostRedisplay();
+    break;
+  case 'U': // counterclockwise
+    upper = (upper + 1) % 360;
+    glutPostRedisplay();
+    break;
+  case 'u': // clockwise
+    upper = (upper - 1) % 360;
+    glutPostRedisplay();
+    break;
+  case 'F': // counterclockwise
+    front = (front + 1) % 360;
+    glutPostRedisplay();
+    break;
+  case 'f': // clockwise
+    front = (front - 1) % 360;
     glutPostRedisplay();
     break;
   default:
