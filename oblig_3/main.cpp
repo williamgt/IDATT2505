@@ -100,8 +100,8 @@ void display() {
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
 
-  glRotated(rotate_x, 1.0, 0.0, 0.0);
-  glRotated(rotate_y, 0.0, 1.0, 0.0);
+  glRotated(rotate_x, 0.0, 1.0, 0.0);
+  glRotated(rotate_y, 1.0, 0.0, 0.0);
   glRotated(rotate_z, 0.0, 0.0, 1.0);
 
   draw3x3Cubes();
@@ -160,12 +160,24 @@ void specialKeybInput(int key, int x, int y) {
     rotate_z = (rotate_z + 1) % 360;
     glutPostRedisplay();
     break;
+  case GLUT_KEY_HOME:
+    rotate_z = (rotate_z - 1) % 360;
+    glutPostRedisplay();
+    break;
   case GLUT_KEY_RIGHT:
     rotate_x = (rotate_x + 1) % 360;
     glutPostRedisplay();
     break;
+  case GLUT_KEY_LEFT:
+    rotate_x = (rotate_x - 1) % 360;
+    glutPostRedisplay();
+    break;
   case GLUT_KEY_UP:
     rotate_y = (rotate_y + 1) % 360;
+    glutPostRedisplay();
+    break;
+  case GLUT_KEY_DOWN:
+    rotate_y = (rotate_y - 1) % 360;
     glutPostRedisplay();
     break;
   default:
