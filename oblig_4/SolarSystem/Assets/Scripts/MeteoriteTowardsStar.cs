@@ -29,8 +29,8 @@ public class MeteoriteTowardsStar : MonoBehaviour
         if (col.gameObject.tag == "Celestial")
         {
             Debug.Log("Insert explosion here");
-            //Destroy(gameObject);
-            r.enabled = false;
+            //Destroy(gameObject); //Leads to errors if Meteorite is one of the celestials
+            r.enabled = false; //Hiding when contacts sun
         }
     }
 }
