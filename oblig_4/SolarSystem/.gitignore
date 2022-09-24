@@ -71,3 +71,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 *.blend1
 *.blend1.meta
+
+#Want to ignore some images
+Assets/Planets/Images/
+Assets/Planets/Images.meta
