@@ -17,7 +17,7 @@ public class MeteoriteTowardsStar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(r.isVisible)
+        if (r.isVisible)
         {
             var step = speed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, star.transform.position, step);
